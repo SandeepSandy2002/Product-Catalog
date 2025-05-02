@@ -1,0 +1,85 @@
+.container {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .table {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .table thead th {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+  }
+  
+  .table tbody td {
+    vertical-align: middle;
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.2s ease;
+  }
+  
+  .badge {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border-radius: 12px;
+  }
+  
+  .table-responsive {
+    margin-top: 15px;
+  }
+  
+  button, .btn {
+    transition: all 0.3s ease;
+  }
+  
+  button:hover, .btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+  }
+  
+  .badge.bg-secondary {
+    background-color: #6c757d;
+  }
+  
+  .badge.bg-success {
+    background-color: #28a745;
+  }
+  
+  .badge.bg-danger {
+    background-color: #dc3545;
+  }
+  
+  .badge.bg-warning {
+    background-color: #ffc107;
+    color: #212529;
+  }
+  
+  .alert-message, .loading-message {
+    font-size: 1rem;
+    color: #555;
+    background: #fff3cd;
+    padding: 12px 16px;
+    border-left: 5px solid #ffeeba;
+    margin-top: 20px;
+    border-radius: 6px;
+  }
+  

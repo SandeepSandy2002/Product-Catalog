@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+.custom-navbar {
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.app-name {
+  font-size: 2.3rem;
+  color: #ffeb3b;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.nav-link {
+  font-size: 1.1rem;
+  margin-right: 14px;
+  color: #ddd !important;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #ffeb3b !important;
+}
+
+.btn-outline-light {
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 6px 16px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-light:hover {
+  background-color: #ffeb3b;
+  color: #212529;
+  border-color: #ffeb3b;
+}
+
+.bi-cart-fill {
+  margin-right: 6px;
+  font-size: 1.2rem;
+}

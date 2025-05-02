@@ -1,0 +1,42 @@
+.catalog-container {
+    background-color: #e0f7fa;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  
+  .catalog-title {
+    color: #004d40;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 12px;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-title {
+    color: #00796b;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    color: #004d40;
+  }
+  
+  .btn-primary {
+    background-color: #0288d1;
+    border-color: #0288d1;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0277bd;
+    border-color: #0277bd;
+  }
+  
