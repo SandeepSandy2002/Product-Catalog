@@ -49,3 +49,12 @@ steps:
     ArtifactName: 'backend-artifact'
     publishLocation: 'Container'
   displayName: 'Publish Backend Artifact'
+  
+#   # Deploy to Azure App Service
+# - task: AzureWebApp@1
+#   inputs:
+#     azureSubscription: '4P1'
+#     appType: 'webApp'
+#     appName: 'productServer'
+#     package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+#   displayName: 'Deploy Backend to Azure App Service'
