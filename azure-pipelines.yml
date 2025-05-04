@@ -1,0 +1,69 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+# Build Stage
+- stage: BuildFrontend
+  displayName: 'Build Frontend'
+  jobs:
+  - job: BuildJob
+    displayName: 'Install & Build'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '14.x'
+      displayName: 'Install Node.js'
+
+    - script: npm install
+      workingDirectory: 'Client'
+      displayName: 'Install Frontend Dependencies'
+
+    - script: npm run build
+      workingDirectory: 'Client'
+      displayName: 'Build Frontend'
+
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: 'Client/build'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/frontend.zip'
+        replaceExistingArchive: true
+      displayName: 'Archive Frontend Build'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+      displayName: 'Publish Artifact'
+
+# Deploy Stage
+- stage: DeployFrontend
+  displayName: 'Deploy Frontend'
+  dependsOn: BuildFrontend
+  jobs:
+  - deployment: DeployFrontendJob
+    displayName: 'Deploy to Azure Web App'
+    environment: 'production'
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+            displayName: 'Download Build Artifact'
+
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: '4P1'  # your service connection name here
+              appName: 'product'        # your Azure Web App name here
+              package: '$(Pipeline.Workspace)/drop/frontend.zip'
+            displayName: 'Deploy Frontend to Azure Web App' 
