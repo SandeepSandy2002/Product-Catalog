@@ -12,7 +12,7 @@ const LoginModal = ({ setShowLoginModal }) => {
     if (userName && password) {
       // Send login request to backend
       try {
-        const response = await fetch('http://localhost:5042/api/auth/login', {
+        const response = await fetch('https://productserver-f2dycfc9cpg2dggu.canadacentral-01.azurewebsites.net/api/auth/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const LoginModal = ({ setShowLoginModal }) => {
     if (userName && password) {
       // Send register request to backend
       try {
-        const response = await fetch('http://localhost:5042/api/auth/register', {
+        const response = await fetch('https://productserver-f2dycfc9cpg2dggu.canadacentral-01.azurewebsites.net/api/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
