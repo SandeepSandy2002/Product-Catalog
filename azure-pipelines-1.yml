@@ -56,5 +56,5 @@ steps:
 #     azureSubscription: '4P1'
 #     appType: 'webApp'
 #     appName: 'productServer'
-#     package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+#     package: '$(Build.ArtifactStagingDirectory)/drop/backend.zip'
 #   displayName: 'Deploy Backend to Azure App Service'
