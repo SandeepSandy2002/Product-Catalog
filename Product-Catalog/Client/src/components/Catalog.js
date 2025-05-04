@@ -13,7 +13,7 @@ const Catalog = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5042/api/Product');
+        const response = await axios.get('https://productserver-f2dycfc9cpg2dggu.canadacentral-01.azurewebsites.net/api/Product');
         if (response.data && response.data.$values && Array.isArray(response.data.$values)) {
           setProducts(response.data.$values);
         } else {
