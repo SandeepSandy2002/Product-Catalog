@@ -16,20 +16,20 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '14.x'
+        versionSpec: '18.x'
       displayName: 'Install Node.js'
 
     - script: npm install
-      workingDirectory: 'Client'
+      workingDirectory: 'src/Client'
       displayName: 'Install Frontend Dependencies'
 
     - script: npm run build
-      workingDirectory: 'Client'
+      workingDirectory: 'src/Client'
       displayName: 'Build Frontend'
 
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: 'Client/build'
+        rootFolderOrFile: 'src/Client/build'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/frontend.zip'
@@ -66,4 +66,4 @@ stages:
               azureSubscription: '4P1'  # your service connection name here
               appName: 'product'        # your Azure Web App name here
               package: '$(Pipeline.Workspace)/drop/frontend.zip'
-            displayName: 'Deploy Frontend to Azure Web App' 
+            displayName: 'Deploy Frontend to Azure Web App'
