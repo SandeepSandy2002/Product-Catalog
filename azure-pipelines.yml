@@ -4,66 +4,57 @@ trigger:
       - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
-stages:
-# Build Stage
-- stage: BuildFrontend
-  displayName: 'Build Frontend'
-  jobs:
-  - job: BuildJob
-    displayName: 'Install & Build'
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '18.x'
-      displayName: 'Install Node.js'
+variables:
+  buildConfiguration: 'Release'
 
-    - script: npm install
-      workingDirectory: 'src/Client'
-      displayName: 'Install Frontend Dependencies'
+steps:
+# Install .NET SDK
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.x'
+  displayName: 'Install .NET SDK'
 
-    - script: npm run build
-      workingDirectory: 'src/Client'
-      displayName: 'Build Frontend'
+# Restore Backend Dependencies
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: '**/Server.csproj'
+  displayName: 'Restore Backend Dependencies'
 
-    - task: ArchiveFiles@2
-      inputs:
-        rootFolderOrFile: 'src/Client/build'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/frontend.zip'
-        replaceExistingArchive: true
-      displayName: 'Archive Frontend Build'
+# Build Backend Project
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '**/Server.csproj'
+    arguments: '--configuration $(buildConfiguration) --no-restore'
+  displayName: 'Build Backend Project'
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
-      displayName: 'Publish Artifact'
+# Publish Backend Project
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '**/Server.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) --no-restore'
+    zipAfterPublish: true
+  displayName: 'Publish Backend Project'
 
-# Deploy Stage
-- stage: DeployFrontend
-  displayName: 'Deploy Frontend'
-  dependsOn: BuildFrontend
-  jobs:
-  - deployment: DeployFrontendJob
-    displayName: 'Deploy to Azure Web App'
-    environment: 'production'
-    pool:
-      vmImage: 'ubuntu-latest'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-            artifact: drop
-            displayName: 'Download Build Artifact'
-
-          - task: AzureWebApp@1
-            inputs:
-              azureSubscription: '4P1'  # your service connection name here
-              appName: 'product'        # your Azure Web App name here
-              package: '$(Pipeline.Workspace)/drop/frontend.zip'
-            displayName: 'Deploy Frontend to Azure Web App'
+# Publish Backend Artifact
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'backend-artifact'
+    publishLocation: 'Container'
+  displayName: 'Publish Backend Artifact'
+  
+#   # Deploy to Azure App Service
+# - task: AzureWebApp@1
+#   inputs:
+#     azureSubscription: '4P1'
+#     appType: 'webApp'
+#     appName: 'productServer'
+#     package: '$(Build.ArtifactStagingDirectory)/drop/backend.zip'
+#   displayName: 'Deploy Backend to Azure App Service'
